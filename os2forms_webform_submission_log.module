@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Module file form os2forms_webform_submission_log.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\os2forms_webform_submission_log\Helper\WebformHelper;
+
+/**
+ * Implements hook_webform_third_party_settings_form_alter().
+ *
+ * @see WebformHelper::webformThirdPartySettingsFormAlter()
+ *
+ * @phpstan-param array<string, mixed> $form
+ */
+function os2forms_webform_submission_log_webform_third_party_settings_form_alter(array &$form, FormStateInterface $form_state): void {
+  \Drupal::service(WebformHelper::class)->webformThirdPartySettingsFormAlter($form, $form_state);
+}
