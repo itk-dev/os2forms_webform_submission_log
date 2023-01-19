@@ -97,7 +97,7 @@ class WebformSubmissionLogMailer {
    * @return false|string[]
    */
   private function getRecipients($webformSettings) {
-    return explode("\r\n", $webformSettings['emails']);
+    return array_filter(array_map('trim', explode(PHP_EOL, $webformSettings['emails'])));
   }
 
   /**

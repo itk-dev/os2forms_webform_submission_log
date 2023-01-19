@@ -51,7 +51,7 @@ final class WebformHelper {
    *
    * @return void
    */
-  public function setEmailTemplate($key, &$message, $params) {
+  public function mail($key, &$message, $params) {
     if ($key == 'submission_log_notification') {
       $message['from'] = $params['from'];
       $message['subject'] = $params['title'];

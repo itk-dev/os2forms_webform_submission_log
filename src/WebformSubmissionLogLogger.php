@@ -2,11 +2,8 @@
 
 namespace Drupal\os2forms_webform_submission_log;
 
-use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Logger\RfcLoggerTrait;
 use Drupal\Core\Logger\RfcLogLevel;
-use Drupal\os2forms_webform_submission_log\Helper\WebformHelper;
-use Drupal\os2forms_webform_submission_log\WebformSubmissionLogMailer;
 use Drupal\webform\WebformSubmissionInterface;
 use Psr\Log\LoggerInterface;
 

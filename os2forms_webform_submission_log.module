@@ -23,5 +23,5 @@ function os2forms_webform_submission_log_webform_third_party_settings_form_alter
  * Implements hook_mail().
  */
 function os2forms_webform_submission_log_mail($key, &$message, $params) {
-  \Drupal::service(WebformHelper::class)->setEmailTemplate($key, $message, $params);
+  \Drupal::service(WebformHelper::class)->mail($key, $message, $params);
 }
