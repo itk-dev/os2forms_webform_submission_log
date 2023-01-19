@@ -18,3 +18,10 @@ use Drupal\os2forms_webform_submission_log\Helper\WebformHelper;
 function os2forms_webform_submission_log_webform_third_party_settings_form_alter(array &$form, FormStateInterface $form_state): void {
   \Drupal::service(WebformHelper::class)->webformThirdPartySettingsFormAlter($form, $form_state);
 }
+
+/**
+ * Implements hook_mail().
+ */
+function os2forms_webform_submission_log_mail($key, &$message, $params) {
+  \Drupal::service(WebformHelper::class)->setEmailTemplate($key, $message, $params);
+}

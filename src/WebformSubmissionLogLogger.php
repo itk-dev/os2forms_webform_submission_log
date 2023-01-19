@@ -4,7 +4,9 @@ namespace Drupal\os2forms_webform_submission_log;
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Logger\RfcLoggerTrait;
+use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\os2forms_webform_submission_log\Helper\WebformHelper;
+use Drupal\os2forms_webform_submission_log\WebformSubmissionLogMailer;
 use Drupal\webform\WebformSubmissionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -13,6 +15,18 @@ use Psr\Log\LoggerInterface;
  */
 final class WebformSubmissionLogLogger implements LoggerInterface {
   use RfcLoggerTrait;
+
+  /**
+   * The os2forms webform submission log mailer service.
+   */
+  protected WebformSubmissionLogMailer $submissionLogMailer;
+
+  /**
+   * Logger constructor
+   */
+  public function __construct(WebformSubmissionLogMailer $submissionLogMailer) {
+    $this->submissionLogMailer = $submissionLogMailer;
+  }
 
   /**
    * {@inheritdoc}
@@ -39,18 +53,8 @@ final class WebformSubmissionLogLogger implements LoggerInterface {
       return;
     }
 
-    $webform = $webformSubmission->getWebform();
-    $settings = $webform->getThirdPartySetting('os2forms', 'os2forms_webform_submission_log');
-
-    $logLevel = (int) ($settings['log_level'] ?? WebformHelper::LOG_LEVEL_NONE);
-
-    if ($level <= $logLevel) {
-      file_put_contents(__FILE__ . '.debug', var_export([
-        'timestamp' => (new DrupalDateTime())->format(DrupalDateTime::FORMAT),
-        'level' => $level,
-        'message' => $message,
-        'settings' => $settings,
-      ], TRUE), FILE_APPEND);
+    if ($level <= RfcLogLevel::ERROR) {
+      $this->submissionLogMailer->sendMails($webformSubmission, $context);
     }
   }
 
