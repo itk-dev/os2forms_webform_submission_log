@@ -10,6 +10,6 @@ services:
       - '@config.factory'
       - '@plugin.manager.mail'
       - '@language_manager'
-      - '@request_stack'
+      - '@url_generator'
 
   Drupal\os2forms_webform_submission_log\Helper\WebformHelper:

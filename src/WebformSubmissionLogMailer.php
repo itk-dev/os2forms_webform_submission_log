@@ -6,6 +6,7 @@ use Drupal\Core\Logger\LoggerChannelTrait;
 use Drupal\Core\Mail\MailManager;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Routing\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class WebformSubmissionLogMailer {
@@ -33,11 +34,11 @@ class WebformSubmissionLogMailer {
   protected LanguageManager $languageManager;
 
   /**
-   * The request stack.
+   * The url generator service.
    *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
+   * @var \Drupal\Core\Routing\UrlGeneratorInterface
    */
-  protected RequestStack $requestStack;
+  protected UrlGeneratorInterface $urlGenerator;
 
   /**
    * Mailer constructor.
@@ -48,14 +49,14 @@ class WebformSubmissionLogMailer {
    *   The mail manager service.
    * @param \Drupal\Core\Language\LanguageManager $languageManager
    *   The language manager service.
-   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
-   *   The request stack.
+   * @param \Drupal\Core\Routing\UrlGeneratorInterface $urlGenerator
+   *   The URL generator.
    */
-  public function __construct(ConfigFactoryInterface $configFactory, MailManager $mailManager, LanguageManager $languageManager, RequestStack $requestStack) {
+  public function __construct(ConfigFactoryInterface $configFactory, MailManager $mailManager, LanguageManager $languageManager, UrlGeneratorInterface $urlGenerator) {
     $this->configFactory = $configFactory;
     $this->mailManager = $mailManager;
     $this->languageManager = $languageManager;
-    $this->requestStack = $requestStack;
+    $this->urlGenerator = $urlGenerator;
   }
 
   /**
@@ -114,17 +115,24 @@ class WebformSubmissionLogMailer {
    *   The created message.
    */
   private function createMessage($webform, $webformSubmission, $context): string {
-    $site_url = $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost();
+    $referenceUrl = $this->urlGenerator->generateFromRoute(
+      'entity.webform_submission.log',
+      [
+        'webform' => $webform->id(),
+        'webform_submission' => $webformSubmission->id()
+      ],
+      ['absolute' => TRUE]
+    );
 
-    $message = "A webform handler failed to do its job\r\n";
-    $message .= "\r\n";
-    $message .= "Form name: " . $webform->label() . "\r\n";
-    $message .= "Submission id: " . $webformSubmission->serial() . "\r\n";
+    $messageLines[] = "A webform handler failed to do its job";
+    $messageLines[] = "";
+    $messageLines[] = "Form name: " . $webform->label();
+    $messageLines[] = "Submission id: " . $webformSubmission->serial();
     if(isset($context['operation'])) {
-      $message .= "Operation attempted: " . $context['operation'] . "\r\n";
+      $messageLines[] = "Operation attempted: " . $context['operation'];
     }
-    $message .= "Reference: " . $site_url . "/admin/structure/webform/manage/" . $webform->id() . "/submission/" . $webformSubmission->id() . "/log\r\n";
+    $messageLines[] = "Reference: " . $referenceUrl;
 
-    return $message;
+    return implode(PHP_EOL, $messageLines);
   }
 }
