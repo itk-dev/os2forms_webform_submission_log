@@ -95,9 +95,9 @@ class WebformSubmissionLogMailer {
    *
    * @param $webformSettings
    *
-   * @return false|string[]
+   * @return array[]
    */
-  private function getRecipients($webformSettings) {
+  private function getRecipients($webformSettings): array {
     return array_filter(array_map('trim', explode(PHP_EOL, $webformSettings['emails'])));
   }
 
