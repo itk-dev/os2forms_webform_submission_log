@@ -44,9 +44,9 @@ final class WebformHelper {
    *
    * @param string $key
    *   The mail key.
-   * @@phpstan-param array<string, mixed> $message
+   * @phpstan-param array<string, mixed> $message
    *   The message to send.
-   * @@phpstan-param array<string, mixed> $params
+   * @phpstan-param array<string, mixed> $params
    *   Various parameters used by the mail template.
    */
   public function mail(string $key, array &$message, array $params): void {
