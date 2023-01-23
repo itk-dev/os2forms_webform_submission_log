@@ -96,19 +96,19 @@ jobs:
           # Install Drupal
           composer --no-interaction create-project drupal/recommended-project:^9 --stability=dev drupal
           # Copy our module source code into the Drupal module folder.
-          mkdir -p drupal/web/modules/contrib/os2forms_sync
-          cp -r os2forms_sync.* composer.json src drupal/web/modules/contrib/os2forms_sync
+          mkdir -p drupal/web/modules/contrib/os2forms_webform_submission_log
+          cp -r os2forms_webform_submission_log.* composer.json src drupal/web/modules/contrib/os2forms_webform_submission_log
           # Add our module as a composer repository.
-          composer --no-interaction --working-dir=drupal config repositories.os2forms/os2forms_sync path web/modules/contrib/os2forms_sync
+          composer --no-interaction --working-dir=drupal config repositories.os2forms/os2forms_webform_submission_log path web/modules/contrib/os2forms_webform_submission_log
           # Restore Drupal composer repository.
           composer --no-interaction --working-dir=drupal config repositories.drupal composer https://packages.drupal.org/8
           # Require our module.
-          composer --no-interaction --working-dir=drupal require 'os2forms/os2forms_sync:*'
+          composer --no-interaction --working-dir=drupal require 'os2forms/os2forms_webform_submission_log:*'
           # Check code
           composer --no-interaction --working-dir=drupal require --dev drupal/core-dev
-          cd drupal/web/modules/contrib/os2forms_sync
+          cd drupal/web/modules/contrib/os2forms_webform_submission_log
           # Remove our non-dev dependencies to prevent duplicated Drupal installation
-          # PHP Fatal error:  Cannot redeclare drupal_get_filename() (previously declared in /home/runner/work/os2forms_sync/os2forms_sync/drupal/web/modules/contrib/os2forms_sync/vendor/drupal/core/includes/bootstrap.inc:190) in /home/runner/work/os2forms_sync/os2forms_sync/drupal/web/core/includes/bootstrap.inc on line 190
+          # PHP Fatal error:  Cannot redeclare drupal_get_filename() (previously declared in /home/runner/work/os2forms_webform_submission_log/os2forms_webform_submission_log/drupal/web/modules/contrib/os2forms_webform_submission_log/vendor/drupal/core/includes/bootstrap.inc:190) in /home/runner/work/os2forms_webform_submission_log/os2forms_webform_submission_log/drupal/web/core/includes/bootstrap.inc on line 190
           # Use sed to remove the "require" property in composer.json
           sed -i '/^\s*"require":/,/^\s*}/d' composer.json
           composer --no-interaction install
