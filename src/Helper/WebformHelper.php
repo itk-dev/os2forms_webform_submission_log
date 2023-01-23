@@ -44,9 +44,9 @@ final class WebformHelper {
    *
    * @param string $key
    *   The mail key.
-   * @param array<int, string> $message
+   * @param array<int,string> $message
    *   The message to send.
-   * @param array<int, string> $params
+   * @param array<int,string> $params
    *   Various parameters used by the mail template.
    */
   public function mail(string $key, array &$message, array $params): void {
