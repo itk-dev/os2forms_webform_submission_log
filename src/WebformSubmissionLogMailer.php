@@ -69,8 +69,11 @@ class WebformSubmissionLogMailer {
    *   The webform submission that failed.
    * @param array $context
    *   The logging context.
+   *
+   * @phpstan-param array<string, mixed> $context
    */
-  public function sendMails(WebformSubmissionInterface $webformSubmission, array $context) {
+  public function sendMails(WebformSubmissionInterface $webformSubmission, array $context): void {
+    /** @var ?\Drupal\webform\WebformInterface $queue */
     $webform = $webformSubmission->getWebform();
     $webformSettings = $webform->getThirdPartySetting('os2forms', 'os2forms_webform_submission_log');
 
@@ -97,6 +100,8 @@ class WebformSubmissionLogMailer {
    *
    * @param array $webformSettings
    *   The webform settings-.
+   *
+   * @phpstan-param array<string, mixed> $webformSettings
    *
    * @return array
    *   A list of recipients.
