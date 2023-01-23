@@ -107,7 +107,7 @@ class WebformSubmissionLogMailer {
    * @return array
    *   A list of recipients.
    *
-   * @phpstan-return array<string, string>
+   * @phpstan-return array<int, string>
    */
   private function getRecipients(array $webformSettings): array {
     return array_filter(array_map('trim', explode(PHP_EOL, $webformSettings['emails'])));
