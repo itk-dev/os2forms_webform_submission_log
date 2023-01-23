@@ -19,7 +19,7 @@ final class WebformSubmissionLogLogger implements LoggerInterface {
   protected WebformSubmissionLogMailer $submissionLogMailer;
 
   /**
-   * Logger constructor
+   * Logger constructor.
    */
   public function __construct(WebformSubmissionLogMailer $submissionLogMailer) {
     $this->submissionLogMailer = $submissionLogMailer;

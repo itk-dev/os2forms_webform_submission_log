@@ -7,29 +7,32 @@ use Drupal\Core\Mail\MailManager;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\webform\WebformSubmissionInterface;
 
+/**
+ * SubmisionlogMailer service class.
+ */
 class WebformSubmissionLogMailer {
   use LoggerChannelTrait;
 
   /**
    * The config factory service interface.
    *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface;
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected ConfigFactoryInterface $configFactory;
 
   /**
    * The mail manager service.
    *
-   * @var \Drupal\Core\Mail\MailManager;
+   * @var \Drupal\Core\Mail\MailManager
    */
   protected MailManager $mailManager;
 
   /**
    * The language manager service.
    *
-   * @var \Drupal\Core\Language\LanguageManager;
+   * @var \Drupal\Core\Language\LanguageManager
    */
   protected LanguageManager $languageManager;
 
@@ -62,13 +65,12 @@ class WebformSubmissionLogMailer {
   /**
    * Send "failed job" mail to recipients related to webform.
    *
-   * @param $webformSubmission
+   * @param \Drupal\webform\WebformSubmissionInterface $webformSubmission
    *   The webform submission that failed.
-   * @param $context
+   * @param array $context
    *   The logging context.
-   * @return void
    */
-  public function sendMails($webformSubmission, $context) {
+  public function sendMails(WebformSubmissionInterface $webformSubmission, array $context) {
     $webform = $webformSubmission->getWebform();
     $webformSettings = $webform->getThirdPartySetting('os2forms', 'os2forms_webform_submission_log');
 
@@ -77,13 +79,13 @@ class WebformSubmissionLogMailer {
     $key = 'submission_log_notification';
     $langCode = $this->languageManager->getCurrentLanguage()->getId();
 
-    $params['title'] = 'Webform submission error - Form name: '. $webform->label() . ', Id: ' . $webformSubmission->serial();
+    $params['title'] = 'Webform submission error - Form name: ' . $webform->label() . ', Id: ' . $webformSubmission->serial();
     $params['from'] = $this->configFactory->get('system.site')->get('mail');
     $params['message'] = $this->createMessage($webform, $webformSubmission, $context);
 
     foreach ($recipients as $to) {
       $result = $this->mailManager->mail($module, $key, $to, $langCode, $params);
-      if ($result['result'] !== true) {
+      if ($result['result'] !== TRUE) {
         $logger = $this->getLogger($module);
         $logger->error('There was a problem sending your email notification');
       }
@@ -93,33 +95,35 @@ class WebformSubmissionLogMailer {
   /**
    * Get recipients.
    *
-   * @param $webformSettings
+   * @param array $webformSettings
+   *   The webform settings-.
    *
-   * @return array[]
+   * @return array
+   *   A list of recipients.
    */
-  private function getRecipients($webformSettings): array {
+  private function getRecipients(array $webformSettings): array {
     return array_filter(array_map('trim', explode(PHP_EOL, $webformSettings['emails'])));
   }
 
   /**
    * Create the message to send.
    *
-   * @param $webform
+   * @param WebformInterface $webform
    *   The related webform.
-   * @param $webformSubmission
+   * @param \Drupal\webform\WebformSubmissionInterface $webformSubmission
    *   The related webform submission.
-   * @param $context
+   * @param array $context
    *   The related context.
    *
    * @return string
    *   The created message.
    */
-  private function createMessage($webform, $webformSubmission, $context): string {
+  private function createMessage(WebformInterface $webform, WebformSubmissionInterface $webformSubmission, array $context): string {
     $referenceUrl = $this->urlGenerator->generateFromRoute(
       'entity.webform_submission.log',
       [
         'webform' => $webform->id(),
-        'webform_submission' => $webformSubmission->id()
+        'webform_submission' => $webformSubmission->id(),
       ],
       ['absolute' => TRUE]
     );
@@ -128,11 +132,12 @@ class WebformSubmissionLogMailer {
     $messageLines[] = "";
     $messageLines[] = "Form name: " . $webform->label();
     $messageLines[] = "Submission id: " . $webformSubmission->serial();
-    if(isset($context['operation'])) {
+    if (isset($context['operation'])) {
       $messageLines[] = "Operation attempted: " . $context['operation'];
     }
     $messageLines[] = "Reference: " . $referenceUrl;
 
     return implode(PHP_EOL, $messageLines);
   }
+
 }

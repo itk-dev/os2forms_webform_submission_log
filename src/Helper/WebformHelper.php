@@ -42,16 +42,14 @@ final class WebformHelper {
   /**
    * Define the email templates to use for sending emails through this module.
    *
-   * @param $key
+   * @param string $key
    *   The mail key.
-   * @param $message
+   * @param array $message
    *   The message to send.
-   * @param $params
+   * @param array $params
    *   Various parameters used by the mail template.
-   *
-   * @return void
    */
-  public function mail($key, &$message, $params) {
+  public function mail(string $key, array &$message, array $params) {
     if ($key == 'submission_log_notification') {
       $message['from'] = $params['from'];
       $message['subject'] = $params['title'];
