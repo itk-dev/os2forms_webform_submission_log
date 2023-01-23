@@ -74,7 +74,7 @@ class WebformSubmissionLogMailer {
    * @phpstan-param array<string, mixed> $context
    */
   public function sendMails(WebformSubmissionInterface $webformSubmission, array $context): void {
-    /** @var ?\Drupal\webform\WebformInterface $queue */
+    /** @var ?\Drupal\webform\WebformInterface $webform */
     $webform = $webformSubmission->getWebform();
     $webformSettings = $webform->getThirdPartySetting('os2forms', 'os2forms_webform_submission_log');
 
@@ -106,6 +106,8 @@ class WebformSubmissionLogMailer {
    *
    * @return array
    *   A list of recipients.
+   *
+   * @phpstan-return array<string, string>
    */
   private function getRecipients(array $webformSettings): array {
     return array_filter(array_map('trim', explode(PHP_EOL, $webformSettings['emails'])));
