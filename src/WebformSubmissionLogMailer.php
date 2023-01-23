@@ -7,6 +7,7 @@ use Drupal\Core\Mail\MailManager;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
+use Drupal\webform\WebformInterface;
 use Drupal\webform\WebformSubmissionInterface;
 
 /**
@@ -113,12 +114,14 @@ class WebformSubmissionLogMailer {
   /**
    * Create the message to send.
    *
-   * @param WebformInterface $webform
+   * @param \Drupal\webform\WebformInterface $webform
    *   The related webform.
    * @param \Drupal\webform\WebformSubmissionInterface $webformSubmission
    *   The related webform submission.
    * @param array $context
    *   The related context.
+   *
+   * @phpstan-param array<string, mixed> $context
    *
    * @return string
    *   The created message.

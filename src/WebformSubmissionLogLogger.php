@@ -26,7 +26,16 @@ final class WebformSubmissionLogLogger implements LoggerInterface {
   }
 
   /**
-   * {@inheritdoc}
+   * Log submission
+   *
+   * @param mixed $level
+   *   The log level.
+   * @param string $message
+   *   The log message.
+   * @param mixed $context
+   *   The context.
+   *
+   * @return void
    */
   public function log($level, $message, array $context = []) {
     // Only log the 'webform_submission' channel.
