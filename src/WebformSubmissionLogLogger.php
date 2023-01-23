@@ -26,7 +26,7 @@ final class WebformSubmissionLogLogger implements LoggerInterface {
   }
 
   /**
-   * Log submission
+   * Log submission.
    *
    * @param mixed $level
    *   The log level.
@@ -36,8 +36,6 @@ final class WebformSubmissionLogLogger implements LoggerInterface {
    *   The context.
    *
    * @phpstan-param array<string, mixed> $context
-   *
-   * @return void
    */
   public function log($level, $message, array $context = []):void {
     // Only log the 'webform_submission' channel.
