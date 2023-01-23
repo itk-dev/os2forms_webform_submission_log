@@ -32,8 +32,10 @@ final class WebformSubmissionLogLogger implements LoggerInterface {
    *   The log level.
    * @param string $message
    *   The log message.
-   * @param mixed $context
+   * @param array $context
    *   The context.
+   *
+   * @phpstan-param array<string, mixed> $context
    *
    * @return void
    */
