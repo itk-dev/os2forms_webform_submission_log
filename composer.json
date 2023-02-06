@@ -28,7 +28,7 @@
     },
     "scripts": {
         "code-analysis/drupal-check": [
-            "drupal-check --deprecations --analysis --exclude-dir=vendor *.* src"
+            "drupal-check --deprecations --analysis --exclude-dir=vendor,*/src/ProxyClass/* *.* src -vvv"
         ],
         "code-analysis": [
             "@code-analysis/drupal-check"

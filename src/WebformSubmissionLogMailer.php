@@ -6,14 +6,14 @@ use Drupal\Core\Logger\LoggerChannelTrait;
 use Drupal\Core\Mail\MailManager;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Routing\UrlGeneratorInterface;
+use Drupal\Core\Url;
 use Drupal\webform\WebformInterface;
 use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * SubmisionlogMailer service class.
  */
-class WebformSubmissionLogMailer {
+class WebformSubmissionLogMailer implements WebformSubmissionLogMailerInterface {
   use LoggerChannelTrait;
 
   /**
@@ -38,13 +38,6 @@ class WebformSubmissionLogMailer {
   protected LanguageManager $languageManager;
 
   /**
-   * The url generator service.
-   *
-   * @var \Drupal\Core\Routing\UrlGeneratorInterface
-   */
-  protected UrlGeneratorInterface $urlGenerator;
-
-  /**
    * Mailer constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
@@ -53,25 +46,15 @@ class WebformSubmissionLogMailer {
    *   The mail manager service.
    * @param \Drupal\Core\Language\LanguageManager $languageManager
    *   The language manager service.
-   * @param \Drupal\Core\Routing\UrlGeneratorInterface $urlGenerator
-   *   The URL generator.
    */
-  public function __construct(ConfigFactoryInterface $configFactory, MailManager $mailManager, LanguageManager $languageManager, UrlGeneratorInterface $urlGenerator) {
+  public function __construct(ConfigFactoryInterface $configFactory, MailManager $mailManager, LanguageManager $languageManager) {
     $this->configFactory = $configFactory;
     $this->mailManager = $mailManager;
     $this->languageManager = $languageManager;
-    $this->urlGenerator = $urlGenerator;
   }
 
   /**
-   * Send "failed job" mail to recipients related to webform.
-   *
-   * @param \Drupal\webform\WebformSubmissionInterface $webformSubmission
-   *   The webform submission that failed.
-   * @param array $context
-   *   The logging context.
-   *
-   * @phpstan-param array<string, mixed> $context
+   * {@inheritdoc}
    */
   public function sendMails(WebformSubmissionInterface $webformSubmission, array $context): void {
     /** @var ?\Drupal\webform\WebformInterface $webform */
@@ -129,14 +112,15 @@ class WebformSubmissionLogMailer {
    *   The created message.
    */
   private function createMessage(WebformInterface $webform, WebformSubmissionInterface $webformSubmission, array $context): string {
-    $referenceUrl = $this->urlGenerator->generateFromRoute(
+    $referenceUrl = Url::fromRoute(
       'entity.webform_submission.log',
       [
         'webform' => $webform->id(),
         'webform_submission' => $webformSubmission->id(),
-      ],
-      ['absolute' => TRUE]
-    );
+      ]
+    )->setAbsolute()
+      ->toString(TRUE)
+      ->getGeneratedUrl();
 
     $messageLines[] = "A webform handler failed to do its job";
     $messageLines[] = "";
