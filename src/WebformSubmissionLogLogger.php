@@ -16,12 +16,12 @@ final class WebformSubmissionLogLogger implements LoggerInterface {
   /**
    * The os2forms webform submission log mailer service.
    */
-  protected WebformSubmissionLogMailer $submissionLogMailer;
+  protected WebformSubmissionLogMailerInterface $submissionLogMailer;
 
   /**
    * Logger constructor.
    */
-  public function __construct(WebformSubmissionLogMailer $submissionLogMailer) {
+  public function __construct(WebformSubmissionLogMailerInterface $submissionLogMailer) {
     $this->submissionLogMailer = $submissionLogMailer;
   }
 
