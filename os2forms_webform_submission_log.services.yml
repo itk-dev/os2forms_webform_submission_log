@@ -1,6 +1,15 @@
 services:
   Drupal\os2forms_webform_submission_log\WebformSubmissionLogLogger:
+    arguments:
+      - '@Drupal\os2forms_webform_submission_log\WebformSubmissionLogMailer'
     tags:
       - { name: logger }
+
+  Drupal\os2forms_webform_submission_log\WebformSubmissionLogMailer:
+    arguments:
+      - '@config.factory'
+      - '@plugin.manager.mail'
+      - '@language_manager'
+      - '@url_generator'
 
   Drupal\os2forms_webform_submission_log\Helper\WebformHelper:

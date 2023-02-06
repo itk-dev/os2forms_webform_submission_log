@@ -3,16 +3,14 @@
 namespace Drupal\os2forms_webform_submission_log\Helper;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Component\Render\FormattableMarkup;
 
 /**
  * The webform helper.
  */
 final class WebformHelper {
   use StringTranslationTrait;
-
-  public const LOG_LEVEL_NONE = -1;
 
   /**
    * Implements hook_webform_third_party_settings_form_alter().
@@ -33,21 +31,33 @@ final class WebformHelper {
       '#tree' => TRUE,
     ];
 
-    $form['third_party_settings']['os2forms']['os2forms_webform_submission_log']['log_level'] = [
-      '#title' => $this->t('Log level'),
-      '#type' => 'select',
-      '#options' => RfcLogLevel::getLevels(),
-      '#empty_value' => static::LOG_LEVEL_NONE,
-      '#default_value' => $defaultValues['log_level'] ?? -1,
-      '#description' => $this->t('Send a notification for all log messages with a level less than or equal to this level'),
-    ];
-
     $form['third_party_settings']['os2forms']['os2forms_webform_submission_log']['emails'] = [
       '#title' => $this->t('Emails'),
       '#type' => 'textarea',
       '#default_value' => $defaultValues['emails'] ?? NULL,
       '#description' => $this->t('Send a notification to these email adresses (one per line)'),
     ];
+  }
+
+  /**
+   * Define the email templates to use for sending emails through this module.
+   *
+   * @param string $key
+   *   The mail key.
+   * @param array $message
+   *   The message to send.
+   * @param array $params
+   *   Various parameters used by the mail template.
+   *
+   * @phpstan-param array<string, mixed> $message
+   * @phpstan-param array<string, mixed> $params
+   */
+  public function mail(string $key, array &$message, array $params): void {
+    if ($key == 'submission_log_notification') {
+      $message['from'] = $params['from'];
+      $message['subject'] = $params['title'];
+      $message['body'][] = (new FormattableMarkup($params['message'], []))->__toString();
+    }
   }
 
 }
