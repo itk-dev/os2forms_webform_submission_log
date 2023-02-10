@@ -61,20 +61,23 @@ class WebformSubmissionLogMailer implements WebformSubmissionLogMailerInterface 
     $webform = $webformSubmission->getWebform();
     $webformSettings = $webform->getThirdPartySetting('os2forms', 'os2forms_webform_submission_log');
 
-    $recipients = $this->getRecipients($webformSettings);
-    $module = 'os2forms_webform_submission_log';
-    $key = 'submission_log_notification';
-    $langCode = $this->languageManager->getCurrentLanguage()->getId();
+    if ($webformSettings) {
+      $recipients = $this->getRecipients($webformSettings);
 
-    $params['title'] = 'Webform submission error - Form name: ' . $webform->label() . ', Id: ' . $webformSubmission->serial();
-    $params['from'] = $this->configFactory->get('system.site')->get('mail');
-    $params['message'] = $this->createMessage($webform, $webformSubmission, $context);
+      $module = 'os2forms_webform_submission_log';
+      $key = 'submission_log_notification';
+      $langCode = $this->languageManager->getCurrentLanguage()->getId();
 
-    foreach ($recipients as $to) {
-      $result = $this->mailManager->mail($module, $key, $to, $langCode, $params);
-      if ($result['result'] !== TRUE) {
-        $logger = $this->getLogger($module);
-        $logger->error('There was a problem sending your email notification');
+      $params['title'] = 'Webform submission error - Form name: ' . $webform->label() . ', Id: ' . $webformSubmission->serial();
+      $params['from'] = $this->configFactory->get('system.site')->get('mail');
+      $params['message'] = $this->createMessage($webform, $webformSubmission, $context);
+
+      foreach ($recipients as $to) {
+        $result = $this->mailManager->mail($module, $key, $to, $langCode, $params);
+        if ($result['result'] !== TRUE) {
+          $logger = $this->getLogger($module);
+          $logger->error('There was a problem sending your email notification');
+        }
       }
     }
   }
