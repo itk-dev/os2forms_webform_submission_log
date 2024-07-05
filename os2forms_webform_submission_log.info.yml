@@ -3,7 +3,7 @@ type: module
 description: 'OS2Forms Webform submission log'
 package: 'OS2Forms'
 
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9 || ^10
 dependencies:
   - 'webform:webform_submission_log'
 
