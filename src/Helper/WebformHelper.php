@@ -2,9 +2,9 @@
 
 namespace Drupal\os2forms_webform_submission_log\Helper;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Component\Render\FormattableMarkup;
 
 /**
  * The webform helper.
