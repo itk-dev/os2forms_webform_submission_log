@@ -2,10 +2,10 @@
 
 namespace Drupal\os2forms_webform_submission_log;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Logger\LoggerChannelTrait;
 use Drupal\Core\Mail\MailManager;
-use Drupal\Core\Language\LanguageManager;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Url;
 use Drupal\webform\WebformInterface;
 use Drupal\webform\WebformSubmissionInterface;
