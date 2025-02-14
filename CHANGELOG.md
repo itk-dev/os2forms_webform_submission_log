@@ -8,6 +8,8 @@ about writing changes to this log.
 
 ## [Unreleased]
 
+* Updated GitHub workflow images.
+
 ## [1.1.0]
 
 - Drupal 10 compatibility.
