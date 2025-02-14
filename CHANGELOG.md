@@ -12,12 +12,12 @@ about writing changes to this log.
 
 ## [1.1.0]
 
-- Drupal 10 compatibility.
-- Added CHANGELOG.
+* Drupal 10 compatibility.
+* Added CHANGELOG.
 
 ## [1.0.0]
 
-- Release 1.0.0
+* Release 1.0.0
 
 [Unreleased]: https://github.com/itk-dev/os2forms_webform_submission_log/compare/1.1.0...HEAD
 [1.1.0]: https://github.com/itk-dev/os2forms_webform_submission_log/compare/1.0.0...1.1.0
