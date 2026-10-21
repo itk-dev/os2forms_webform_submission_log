@@ -14,15 +14,11 @@ final class WebformSubmissionLogLogger implements LoggerInterface {
   use RfcLoggerTrait;
 
   /**
-   * The os2forms webform submission log mailer service.
-   */
-  protected WebformSubmissionLogMailerInterface $submissionLogMailer;
-
-  /**
    * Logger constructor.
    */
-  public function __construct(WebformSubmissionLogMailerInterface $submissionLogMailer) {
-    $this->submissionLogMailer = $submissionLogMailer;
+  public function __construct(
+    protected WebformSubmissionLogMailerInterface $submissionLogMailer,
+  ) {
   }
 
   /**

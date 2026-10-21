@@ -8,6 +8,7 @@ about writing changes to this log.
 
 ## [Unreleased]
 
+* Drupal 11 compatibility.
 * Updated GitHub workflow images.
 
 ## [1.1.0]

@@ -17,27 +17,6 @@ class WebformSubmissionLogMailer implements WebformSubmissionLogMailerInterface 
   use LoggerChannelTrait;
 
   /**
-   * The config factory service interface.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected ConfigFactoryInterface $configFactory;
-
-  /**
-   * The mail manager service.
-   *
-   * @var \Drupal\Core\Mail\MailManager
-   */
-  protected MailManager $mailManager;
-
-  /**
-   * The language manager service.
-   *
-   * @var \Drupal\Core\Language\LanguageManager
-   */
-  protected LanguageManager $languageManager;
-
-  /**
    * Mailer constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
@@ -47,10 +26,11 @@ class WebformSubmissionLogMailer implements WebformSubmissionLogMailerInterface 
    * @param \Drupal\Core\Language\LanguageManager $languageManager
    *   The language manager service.
    */
-  public function __construct(ConfigFactoryInterface $configFactory, MailManager $mailManager, LanguageManager $languageManager) {
-    $this->configFactory = $configFactory;
-    $this->mailManager = $mailManager;
-    $this->languageManager = $languageManager;
+  public function __construct(
+    protected ConfigFactoryInterface $configFactory,
+    protected MailManager $mailManager,
+    protected LanguageManager $languageManager,
+  ) {
   }
 
   /**
@@ -96,7 +76,7 @@ class WebformSubmissionLogMailer implements WebformSubmissionLogMailerInterface 
    * @phpstan-return array<int, string>
    */
   private function getRecipients(array $webformSettings): array {
-    return array_filter(array_map('trim', explode(PHP_EOL, $webformSettings['emails'])));
+    return array_filter(array_map(trim(...), explode(PHP_EOL, $webformSettings['emails'])));
   }
 
   /**
