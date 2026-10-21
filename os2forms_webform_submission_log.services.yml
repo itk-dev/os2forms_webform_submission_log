@@ -8,8 +8,8 @@ services:
   Drupal\os2forms_webform_submission_log\WebformSubmissionLogMailer:
     lazy: true
     arguments:
-      - '@config.factory'
-      - '@plugin.manager.mail'
-      - '@language_manager'
+      - "@config.factory"
+      - "@plugin.manager.mail"
+      - "@language_manager"
 
   Drupal\os2forms_webform_submission_log\Helper\WebformHelper:

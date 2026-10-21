@@ -1,10 +1,10 @@
-name: 'OS2Forms Webform submission log'
+name: "OS2Forms Webform submission log"
 type: module
-description: 'OS2Forms Webform submission log'
-package: 'OS2Forms'
+description: "OS2Forms Webform submission log"
+package: "OS2Forms"
 
 core_version_requirement: ^10 || ^11
 dependencies:
-  - 'webform:webform_submission_log'
+  - "webform:webform_submission_log"
 
 configure: os2forms_webform_submission_log.admin.settings
