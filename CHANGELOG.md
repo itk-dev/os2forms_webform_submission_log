@@ -8,6 +8,8 @@ about writing changes to this log.
 
 ## [Unreleased]
 
+## [1.2.0] 2026-10-23
+
 * Drupal 11 compatibility.
 * Updated GitHub workflow images.
 
@@ -20,6 +22,7 @@ about writing changes to this log.
 
 * Release 1.0.0
 
-[Unreleased]: https://github.com/itk-dev/os2forms_webform_submission_log/compare/1.1.0...HEAD
+[Unreleased]: https://github.com/itk-dev/os2forms_webform_submission_log/compare/1.2.0...HEAD
+[1.2.0]: https://github.com/itk-dev/os2forms_webform_submission_log/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/itk-dev/os2forms_webform_submission_log/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/itk-dev/os2forms_webform_submission_log//releases/tag/1.0.0
